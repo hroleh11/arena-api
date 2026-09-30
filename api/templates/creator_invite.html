@@ -1,0 +1,31 @@
+{% load i18n %}
+
+{% block subject %}Welcome to the Elite Creator Network on Arena!{% endblock subject %}
+
+{% block text_body %}
+{% blocktrans %}
+Your profile is now live and set up as an Elite Creator on Arena! Arena provides the best tools and resources to grow your following as a creator in the world of sports news, fantasy, and sportsbook, and we’re excited to have you aboard.
+{% endblocktrans %}
+
+{% trans "Your TEMPORARY password is:" %} {{ password }}
+
+{% trans "You can log in to your Arena account using the temporary password." %}
+{% trans "After successful login, we highly recommend changing your password in the Arena app via Profile > Menu > Settings and privacy > Change password" %}
+
+{% trans "Please contact Support (suppport@join-arena.com) if you have any questions. Thank you and welcome to Arena!" %}
+
+{% endblock text_body %}
+
+{% block html_body %}
+<p>{% blocktrans %}Your profile is now live and set up as an Elite Creator on Arena! Arena provides the best tools and resources to grow your following as a creator in the world of sports news, fantasy, and sportsbook, and we’re excited to have you aboard.{% endblocktrans %}</p>
+
+<p>{% trans "Your TEMPORARY password is:" %} <b>{{ password }}</b></p>
+
+<ol>
+  <li>{% trans "You can log in to your Arena account using the temporary password." %}</li>
+  <li>{% trans "After successful login, we highly recommend changing your password in the Arena app via Profile > Menu > Settings and privacy > Change password" %}</li>
+</ol>
+
+<p>{% trans "Please contact Support (suppport@join-arena.com) if you have any questions. Thank you and welcome to Arena!" %}</p>
+
+{% endblock html_body %}

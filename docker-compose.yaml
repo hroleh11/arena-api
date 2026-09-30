@@ -1,0 +1,47 @@
+version: '3.3'
+
+services:
+
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .environment
+#    volumes:
+#      - static-data:/vol/web
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+
+  celery:
+    build:
+      context: ./
+      dockerfile: Dockerfile.celery
+    restart: always
+    env_file:
+      - .environment
+    depends_on:
+      - web
+    networks:
+      - backend
+
+  celery_post_sync_column:
+    build:
+      context: ./
+      dockerfile: Dockerfile.post_sync
+    restart: always
+    env_file:
+      - .environment
+    depends_on:
+      - web
+    networks:
+      - backend
+    volumes:
+      - ./logs:/usr/src/app/logs
+
+networks:
+  backend:
+    external: true

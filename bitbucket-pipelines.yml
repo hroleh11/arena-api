@@ -1,0 +1,22 @@
+image: node:14.16.1
+
+pipelines:
+  branches:
+    develop:
+      - step:
+          name: Pull and build
+          deployment: Staging
+          script:
+            - ssh -v -p $COLUMN_API_DEV_PORT $COLUMN_DEV_USER@$COLUMN_DEV_HOST 'cd ~ && make deploy-api'
+    staging:
+      - step:
+          name: Pull and build
+          deployment: Staging
+          script:
+            - ssh -v -p $COLUMN_API_STAGING_PORT $COLUMN_STAGING_USER@$COLUMN_STAGING_HOST 'cd ~ && make deploy-api'
+    master:
+      - step:
+          name: Pull and build
+          deployment: Staging
+          script:
+            - ssh -v -p $COLUMN_API_PRD_PORT $COLUMN_PRD_USER@$COLUMN_PRD_HOST 'cd ~ && make deploy-api'            

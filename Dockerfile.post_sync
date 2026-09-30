@@ -1,0 +1,43 @@
+# syntax=docker/dockerfile:1
+FROM python:3.9-slim
+
+ENV PYTHONUNBUFFERED 1
+
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+RUN mkdir -p /usr/src/app/
+WORKDIR /usr/src/app/
+
+# Copy requirements first for better caching
+COPY requirements/ /usr/src/app/requirements/
+COPY requirements.txt /usr/src/app/
+
+RUN apt-get update && \
+    apt-get -qq -y install curl cron && \
+    apt-get install -y build-essential libpq-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements/develop.txt
+
+# Copy the rest of the application
+COPY . /usr/src/app/
+RUN adduser --disabled-password --no-create-home app
+RUN chmod +x entrypoint.sh
+RUN chmod +x celery.sh
+RUN chmod +x celery_post_sync.sh
+RUN chown -R app:app /usr/src/app
+
+# Create logs directory
+RUN mkdir -p /usr/src/app/logs && \
+    chown -R app:app /usr/src/app/logs
+
+USER app
+
+# Use specialized post_sync celery script
+ENTRYPOINT ["/usr/src/app/celery_post_sync.sh"]
+
+

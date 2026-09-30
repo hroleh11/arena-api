@@ -1,0 +1,26 @@
+{% load i18n %}
+
+{% block subject %}
+    {{ code }} is your Arena verification code 
+{% endblock subject %}
+
+{% load static %}
+
+{% block html_body %}
+    <div>
+        <div style="">
+            <img src="{{ protocol }}://{{ domain }}{% static 'images/arena.png' %}"
+                 alt="arena"
+                 style="margin: 0; max-height: 25px; max-width: 80px; float: right;">
+            <h3 style="padding-top: 30px; margin: 0;">Confirm your email address</h3>
+        </div>
+        <p>There’s one quick step you need to complete before creating your Arena account. Let’s make sure this is the right email address for you - please confirm this is the right address to use for your new account.</p>
+    <p>
+        Please enter this verification code to get started on Arena:</p>
+    <br>
+    <h3><span style="background-color: #E8E8E8;padding: 15px 20px;">{{ code }}</span></h3>
+    <br>
+    <p>Thanks,</p> 
+    <p>Arena</p>
+</div>
+{% endblock html_body %}

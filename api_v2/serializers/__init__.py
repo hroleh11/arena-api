@@ -1,0 +1,1 @@
+from api_v2.serializers.comments import V2CommentsSerializer
